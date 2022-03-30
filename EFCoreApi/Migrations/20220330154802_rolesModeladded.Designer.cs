@@ -4,14 +4,16 @@ using EFCoreApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    partial class ShopperStopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220330154802_rolesModeladded")]
+    partial class rolesModeladded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,9 +160,6 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -169,8 +168,6 @@ namespace EFCoreApi.Migrations
                     b.HasKey("UserId");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -187,13 +184,7 @@ namespace EFCoreApi.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
-                    b.HasOne("EFCoreApi.Models.DbModels.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
                     b.Navigation("Address");
-
-                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

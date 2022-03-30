@@ -15,6 +15,7 @@ namespace EFCoreApi
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Gender> Genders { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,9 +27,11 @@ namespace EFCoreApi
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);
-            modelBuilder.AppendValidations<User>()
+            modelBuilder
+                .AppendValidations<User>()
                 .AppendValidations<Address>()
-                .SeedData<Gender>();
+                .AppendValidations<Gender>().SeedData<Gender>()
+                .AppendValidations<Role>().SeedData<Role>();
         }
     }
 }
