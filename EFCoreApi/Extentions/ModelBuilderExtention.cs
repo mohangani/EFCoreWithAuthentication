@@ -39,7 +39,7 @@ namespace EFCoreApi
             {
                 var model = Activator.CreateInstance(modeltype);
                 if (model is not null) 
-                    ((IDataSeed)model).SeedData(modelBuilder);
+                    ((DataSeed)model).SeedData(modelBuilder);
             }
             return modelBuilder;
         }

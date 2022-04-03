@@ -1,7 +1,9 @@
-﻿namespace EFCoreApi.Infrastructure
+﻿using EFCoreApi.Models.DbModels;
+
+namespace EFCoreApi.Infrastructure
 {
     public interface IToken
     {
-        string Create(string username);
-    }
+        string Create(User user);
+    }   
 }

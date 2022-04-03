@@ -23,6 +23,7 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<User>().Property(x => x.UserName).IsRequired().HasMaxLength(15);
             modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Gender).IsRequired();
+            modelBuilder.Entity<User>().Property(x => x.IsActive).IsRequired();
         }
     }
 }

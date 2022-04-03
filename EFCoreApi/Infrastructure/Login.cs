@@ -1,4 +1,6 @@
-﻿using EFCoreApi.Models.InputModels;
+﻿using EFCoreApi.Models.DbModels;
+using EFCoreApi.Models.InputModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +11,22 @@ namespace EFCoreApi.Infrastructure
     public class Login : ILogin
     {
         private readonly IToken token;
+        private readonly ShopperStopDbContext dbcontext;
 
-        public Login(IToken token)
+        public Login(IToken token, ShopperStopDbContext dbcontext)
         {
             this.token = token;
+            this.dbcontext = dbcontext;
         }
         public string Authenticate(LoginDto input)
         {
-            if (input.UserName.Equals("Admin", StringComparison.OrdinalIgnoreCase)
-                && input.Password.Equals("admin"))
-            {
+            var user = dbcontext.Users.Include(x => x.Role).Where(x => x.UserName.Equals(input.UserName) && x.Password == input.Password)
+                .Select(x => new User { Password = x.Password, UserId = x.UserId, UserName = x.UserName, Role = x.Role })
+                .FirstOrDefault();
 
-                return token.Create(input.UserName);
-            }
+            if (user != default && user.Password == input.Password)
+                return token.Create(user);
+
             return null;
         }
     }

@@ -23,7 +23,11 @@ namespace EFCoreApi.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginDto loginInfo)
         {
-            return Ok(_login.Authenticate(loginInfo));
+            var token = _login.Authenticate(loginInfo);
+            if (token is null)
+                return BadRequest();
+
+            return Ok(token);
         }
 
 

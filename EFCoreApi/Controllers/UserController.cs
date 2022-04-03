@@ -1,4 +1,5 @@
 ﻿using EFCoreApi.Models.DbModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ namespace EFCoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "admin")]
     public class UserController : ControllerBase
     {
         private readonly ShopperStopDbContext _dbcontext;
@@ -49,7 +51,11 @@ namespace EFCoreApi.Controllers
         {
             var user = _dbcontext.Users.Find(userId);
             if (user is null) return BadRequest("User id not Exists.");
-            _dbcontext.Users.Remove(user);
+
+            user.IsActive = false;
+            _dbcontext.Users.Update(user);
+
+            //_dbcontext.Users.Remove(user);
             return Ok(_dbcontext.SaveChanges());
         }
 

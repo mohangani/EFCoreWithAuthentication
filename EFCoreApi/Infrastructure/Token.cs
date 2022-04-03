@@ -1,4 +1,5 @@
-﻿using EFCoreApi.Models.InputModels;
+﻿using EFCoreApi.Models.DbModels;
+using EFCoreApi.Models.InputModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,12 +18,12 @@ namespace EFCoreApi.Infrastructure
 
         public Token(IConfiguration config)
         {
-            _config = config;
+            _config = config;   
         }
 
-        public string Create(string username) => GenerateJSONWebToken();
+        public string Create(User user) => GenerateJSONWebToken(user);
 
-        private string GenerateJSONWebToken()
+        private string GenerateJSONWebToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -30,12 +31,15 @@ namespace EFCoreApi.Infrastructure
 
             var claims = new Claim[]
             {
-                new Claim("Role","username")
+                new Claim("UserId",user.UserId.ToString(),typeof(int).ToString()),
+                new Claim("UserName",user.UserName),
+                new Claim("RoleName",user.Role.RoleName),
+                new Claim("RoleId",user.Role.RoleId.ToString(),typeof(int).ToString()),
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
-              null,
+              claims,
               expires: DateTime.Now.AddMinutes(20),
               signingCredentials: credentials);
 

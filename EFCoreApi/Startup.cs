@@ -33,9 +33,33 @@ namespace EFCoreApi
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(swagger =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EFCoreApi", Version = "v1" });
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "EFCoreApi", Version = "v1" });
+                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                });
+                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
             });
             services.AddCustomServices();
 
@@ -51,6 +75,23 @@ namespace EFCoreApi
                     ValidAudience = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
+            });
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",//Allow Cross origin  
+            //        builder => builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .AllowCredentials());
+            //});
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("admin",
+                                  policy => policy.RequireClaim("RoleName", "Admin"));
+                options.AddPolicy("user",
+                                policy => policy.RequireClaim("RoleName", "User"));
             });
         }
 

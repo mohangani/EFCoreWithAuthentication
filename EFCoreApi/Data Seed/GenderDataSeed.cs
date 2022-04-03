@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace EFCoreApi.Data_Seed
 {
-    public class GenderDataSeed : IDataSeed
+    public class GenderDataSeed : DataSeed
     {
-        public ModelBuilder SeedData(ModelBuilder modelBuilder)
-        {
-            var list = Enum.GetValues(typeof(GenderType)).Cast<GenderType>().Select(x =>
-            new Gender { GenderName = x.ToString(), GenderId = x });
-            modelBuilder.Entity<Gender>().HasData(list);
-            return modelBuilder;
-        }
+        public override ModelBuilder SeedData(ModelBuilder modelBuilder) => SeedData<Gender, GenderType>(modelBuilder);
+        
+        
+        //{
+        //    //var list = Enum.GetValues(typeof(GenderType)).Cast<GenderType>().Select(x =>
+        //    //new Gender { Name = x.ToString(), Id = x });
+        //    //modelBuilder.Entity<Gender>().HasData(list);
+        //    //return modelBuilder;
+        //}
     }
 }

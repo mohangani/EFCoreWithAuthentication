@@ -1,14 +1,15 @@
-﻿using System;
+﻿using EFCoreApi.Data_Seed;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
-    public class Gender
+    public class Gender : DataSeedEnumClass<GenderType>
     {
-        public GenderType GenderId { get; set; }
-        public string  GenderName { get; set; }
+        //public GenderType GenderId { get; set; }
+        //public string  GenderName { get; set; }
     }
     public enum GenderType : int
     {
