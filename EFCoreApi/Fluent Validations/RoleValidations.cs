@@ -11,7 +11,7 @@ namespace EFCoreApi.Fluent_Validations
     {
         public void AppendValidations(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>().HasKey(x=>x.RoleId);
+            modelBuilder.Entity<Role>().HasKey(x=>x.Id);
             modelBuilder.Entity<Role>().Property(x=>x.RoleName).IsRequired().HasMaxLength(16);
         }
     }

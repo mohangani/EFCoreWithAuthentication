@@ -11,7 +11,7 @@ namespace EFCoreApi.Fluent_Validations
     {
         public void AppendValidations(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().HasKey(x => x.ProductId);
+            modelBuilder.Entity<Product>().HasKey(x => x.Id);
             modelBuilder.Entity<Product>().Property(x => x.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Product>().Property(x => x.Price).IsRequired();
             modelBuilder.Entity<Product>().Property(x => x.Color).IsRequired().HasMaxLength(16);

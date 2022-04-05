@@ -1,13 +1,14 @@
-﻿using System;
+﻿using EFCoreApi.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
-    public class Product
+    public class Product : IDbModel
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
         public List<Image> ImageUrl { get; set; }

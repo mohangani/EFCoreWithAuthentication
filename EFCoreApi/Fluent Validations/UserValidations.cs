@@ -11,7 +11,7 @@ namespace EFCoreApi.Fluent_Validations
     {
         public void AppendValidations(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(x => x.UserId);
+            modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<User>().HasIndex(x => x.UserName).IsUnique();
             modelBuilder.Entity<User>().HasIndex(x => new { x.FirstName, x.LastName, x.Dob }).IsUnique();
             
@@ -24,6 +24,8 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Gender).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.IsActive).IsRequired();
+            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne().HasForeignKey<User>(x=>x.AddressId);
+            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne().HasForeignKey<User>(x=>x.AddressId);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace EFCoreApi.Data_Seed
         {
             var list = new List<Role>
             {
-                new Role(){RoleId=1, RoleName="Admin"},
-                new Role(){RoleId=2, RoleName="User"},
-                new Role(){RoleId=3, RoleName="Guest"}
+                new Role(){Id=1, RoleName="Admin"},
+                new Role(){Id=2, RoleName="User"},
+                new Role(){Id=3, RoleName="Guest"}
             };
             modelBuilder.Entity<Role>().HasData(list);
 

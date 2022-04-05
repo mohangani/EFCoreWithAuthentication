@@ -31,10 +31,10 @@ namespace EFCoreApi.Infrastructure
 
             var claims = new Claim[]
             {
-                new Claim("UserId",user.UserId.ToString(),typeof(int).ToString()),
+                new Claim("UserId",user.Id.ToString(),typeof(int).ToString()),
                 new Claim("UserName",user.UserName),
                 new Claim("RoleName",user.Role.RoleName),
-                new Claim("RoleId",user.Role.RoleId.ToString(),typeof(int).ToString()),
+                new Claim("RoleId",user.Role.Id.ToString(),typeof(int).ToString()),
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

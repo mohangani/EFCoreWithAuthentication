@@ -4,14 +4,16 @@ using EFCoreApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    partial class ShopperStopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220405154558_cartmodelAdded_And_forignKeyAdded")]
+    partial class cartmodelAdded_And_forignKeyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Address", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -45,7 +47,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AddressId");
 
                     b.ToTable("Address");
                 });
@@ -144,7 +146,7 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -184,7 +186,7 @@ namespace EFCoreApi.Migrations
                     b.Property<int?>("SizeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductId");
 
                     b.HasIndex("ProductTypeId");
 
@@ -292,7 +294,7 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -302,31 +304,31 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("nvarchar(16)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId");
 
                     b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            RoleId = 1,
                             RoleName = "Admin"
                         },
                         new
                         {
-                            Id = 2,
+                            RoleId = 2,
                             RoleName = "User"
                         },
                         new
                         {
-                            Id = 3,
+                            RoleId = 3,
                             RoleName = "Guest"
                         });
                 });
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SellerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -344,7 +346,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(24)
                         .HasColumnType("nvarchar(24)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SellerId");
 
                     b.HasIndex("AddressId");
 
@@ -374,7 +376,7 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -422,7 +424,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("AddressId")
                         .IsUnique();

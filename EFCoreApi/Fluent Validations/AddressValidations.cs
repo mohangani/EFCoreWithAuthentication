@@ -11,7 +11,7 @@ namespace EFCoreApi.Fluent_Validations
     {
         public void AppendValidations(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>().HasKey(x => x.AddressId);
+            modelBuilder.Entity<Address>().HasKey(x => x.Id);
             modelBuilder.Entity<Address>().Property(x => x.Street).HasMaxLength(50);
             modelBuilder.Entity<Address>().Property(x => x.State).HasMaxLength(24);
             modelBuilder.Entity<Address>().Property(x => x.City).HasMaxLength(24);

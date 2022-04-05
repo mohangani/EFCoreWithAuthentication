@@ -21,6 +21,7 @@ namespace EFCoreApi
         public DbSet<Size> Sizes { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Seller> Sellers { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,7 +42,8 @@ namespace EFCoreApi
                 .AppendValidations<Image>()
                 .AppendValidations<Seller>()
                 .AppendValidations<Size>()
-                .AppendValidations<ProductType>().SeedData<ProductType>();
+                .AppendValidations<ProductType>().SeedData<ProductType>()
+                .AppendValidations<Cart>();
 
         }
     }
