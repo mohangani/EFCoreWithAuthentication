@@ -15,7 +15,9 @@ namespace EFCoreApi.Models.DbModels
         public double Price { get; set; }
         public string Description { get; set; }
         public string BrandName { get; set; }
+        public int SizeId { get; internal set; }
         public Size Size { get; set; }
+        public int SellerId { get; internal set; }
         public Seller Seller { get; set; }
         public ProductType ProductType { get; set; }
         public bool IsActive { get; set; }

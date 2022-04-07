@@ -14,6 +14,7 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<Seller>().HasKey(x => x.Id);
             modelBuilder.Entity<Seller>().Property(x => x.Name).IsRequired().HasMaxLength(24);
             modelBuilder.Entity<Seller>().Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
+            modelBuilder.Entity<Seller>().HasOne(x => x.Address).WithOne().HasForeignKey<Seller>(x => x.AddressId);
         }
     }
 }

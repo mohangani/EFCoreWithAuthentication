@@ -4,14 +4,16 @@ using EFCoreApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    partial class ShopperStopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220407162611_SellerforginKeyAddedforProductTable")]
+    partial class SellerforginKeyAddedforProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,7 +335,7 @@ namespace EFCoreApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -348,8 +350,7 @@ namespace EFCoreApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Sellers");
                 });
@@ -417,7 +418,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
@@ -430,8 +431,7 @@ namespace EFCoreApi.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -496,10 +496,8 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Address", "Address")
-                        .WithOne()
-                        .HasForeignKey("EFCoreApi.Models.DbModels.Seller", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });
@@ -513,10 +511,8 @@ namespace EFCoreApi.Migrations
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Role", "Role")
-                        .WithOne()
-                        .HasForeignKey("EFCoreApi.Models.DbModels.User", "RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Address");
 

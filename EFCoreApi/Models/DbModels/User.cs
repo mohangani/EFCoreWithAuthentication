@@ -17,11 +17,12 @@ namespace EFCoreApi.Models.DbModels
         public string Phone { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public int  AddressId { get; set; }
+        public int AddressId { get; internal set; }
         public Address Address { get; set; }
+        public int RoleId { get; internal set; }
         public Role Role { get; set; }
         public bool IsActive { get; set; } = true;
     }
 
-   
+
 }
