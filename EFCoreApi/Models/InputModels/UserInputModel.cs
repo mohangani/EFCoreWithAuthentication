@@ -1,12 +1,13 @@
 ﻿using EFCoreApi.Controllers;
+using EFCoreApi.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EFCoreApi.Models.DbModels
+namespace EFCoreApi.Models.InputModels
 {
-    public class User : IDbModel
+    public class UserInputModel : IDbModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -18,12 +19,7 @@ namespace EFCoreApi.Models.DbModels
         public string UserName { get; set; }
         public string Password { get; set; }
         public int AddressId { get; set; }
-        public Address Address { get; set; }
         public int RoleId { get; set; }
-        public Role Role { get; set; }
         public bool? IsActive { get; set; }
-        public Cart Cart { get; set; }
     }
-
-
 }

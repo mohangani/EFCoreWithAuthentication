@@ -11,6 +11,8 @@ namespace EFCoreApi.Models.DbModels
         public float? Width { get; set; }
         public float? Height { get; set; }
         public int ProductSize { get; set; }
+
+        public Product Product { get; set; }
     }
 
 

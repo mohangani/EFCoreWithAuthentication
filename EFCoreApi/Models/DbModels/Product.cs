@@ -15,11 +15,13 @@ namespace EFCoreApi.Models.DbModels
         public double Price { get; set; }
         public string Description { get; set; }
         public string BrandName { get; set; }
-        public int SizeId { get; internal set; }
+        public int SizeId { get; set; }
         public Size Size { get; set; }
-        public int SellerId { get; internal set; }
+        public int SellerId { get;  set; }
         public Seller Seller { get; set; }
         public ProductType ProductType { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
+
+        public Cart Cart { get; set; }
     }
 }

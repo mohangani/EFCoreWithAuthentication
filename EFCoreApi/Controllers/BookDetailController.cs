@@ -10,10 +10,10 @@ namespace EFCoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SellerController : CommonController<Seller, Seller>
+    public class BookDetailController : CommonController<BookDetail, BookDetail>
     {
         private readonly ShopperStopDbContext _dbcontext;
-        public SellerController(ShopperStopDbContext dbcontext) : base(dbcontext)
+        public BookDetailController(ShopperStopDbContext dbcontext) : base(dbcontext)
         {
             _dbcontext = dbcontext;
         }

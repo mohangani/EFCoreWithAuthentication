@@ -16,9 +16,9 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<Product>().Property(x => x.Price).IsRequired();
             modelBuilder.Entity<Product>().Property(x => x.Color).IsRequired().HasMaxLength(16);
             modelBuilder.Entity<Product>().Property(x => x.Description).IsRequired().HasMaxLength(1000);
-            modelBuilder.Entity<Product>().Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
-            modelBuilder.Entity<Product>().HasOne(x => x.Size).WithOne().HasForeignKey<Product>(x=>x.SizeId);
-            modelBuilder.Entity<Product>().HasOne(x => x.Seller).WithOne().HasForeignKey<Product>(x=>x.SellerId);
+            modelBuilder.Entity<Product>().Property(x => x.IsActive).HasDefaultValue(true);
+            modelBuilder.Entity<Product>().HasOne(x => x.Size).WithOne(x=>x.Product).HasForeignKey<Product>(x=>x.SizeId);
+            modelBuilder.Entity<Product>().HasOne(x => x.Seller).WithOne(x => x.Product).HasForeignKey<Product>(x=>x.SellerId);
         }
     }
 }

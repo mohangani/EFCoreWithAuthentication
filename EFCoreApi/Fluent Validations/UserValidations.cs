@@ -23,9 +23,9 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<User>().Property(x => x.UserName).IsRequired().HasMaxLength(15);
             modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Gender).IsRequired();
-            modelBuilder.Entity<User>().Property(x => x.IsActive).IsRequired();
-            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne().HasForeignKey<User>(x=>x.AddressId);
-            modelBuilder.Entity<User>().HasOne(x => x.Role).WithOne().HasForeignKey<User>(x=>x.RoleId);
+            modelBuilder.Entity<User>().Property(x => x.IsActive).HasDefaultValue(true);
+            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne(x=>x.User).HasForeignKey<User>(x=>x.AddressId);
+            modelBuilder.Entity<User>().HasOne(x => x.Role).WithOne(x=>x.User).HasForeignKey<User>(x=>x.RoleId);
         }
     }
 }

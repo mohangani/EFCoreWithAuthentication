@@ -21,7 +21,8 @@ namespace EFCoreApi.Middlewares
                 var exception = new ExceptionModel
                 {
                     StackTrace = ex.StackTrace,
-                    ExceptionMessage = ex.Message
+                    ExceptionMessage = ex.Message,
+                    InnerExceptionMessage = ex.InnerException
                 };
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

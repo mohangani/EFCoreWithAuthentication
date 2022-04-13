@@ -10,6 +10,7 @@ namespace EFCoreApi.Models.OutputModels
     {
         public int Status { get; set; }
         public string ExceptionMessage { get; set; }
+        public Exception InnerExceptionMessage { get; set; }
         public string ExceptionType { get; set; }
         public string StackTrace { get; set; }
 

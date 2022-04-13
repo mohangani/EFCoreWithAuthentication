@@ -10,7 +10,7 @@ namespace EFCoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : CommonController<Product>
+    public class ProductController : CommonController<Product, Product>
     {
         private readonly ShopperStopDbContext _dbcontext;
 

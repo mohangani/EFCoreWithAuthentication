@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
-    public class Seller : IDbModel
+    public class Book : IDbModel
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
-        public bool? IsActive { get; set; }
+        public BookDetail BookDetails { get; set; }
+        public int BookDetails_Id { get; set; }
 
-        public Product Product { get; set; }
     }
 }

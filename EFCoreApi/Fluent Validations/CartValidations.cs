@@ -13,8 +13,8 @@ namespace EFCoreApi.Fluent_Validations
         {
             modelBuilder.Entity<Cart>().HasKey(x => x.Id);
             modelBuilder.Entity<Cart>().Property(x => x.Quantity).IsRequired();
-            modelBuilder.Entity<Cart>().HasOne(x => x.User).WithOne().HasForeignKey<Cart>(x => x.UserId);
-            modelBuilder.Entity<Cart>().HasOne(x => x.Product).WithOne().HasForeignKey<Cart>(x => x.ProductId);
+            modelBuilder.Entity<Cart>().HasOne(x => x.User).WithOne(x=>x.Cart).HasForeignKey<Cart>(x => x.UserId);
+            modelBuilder.Entity<Cart>().HasOne(x => x.Product).WithOne(x => x.Cart).HasForeignKey<Cart>(x => x.ProductId);
         }
     }
 }

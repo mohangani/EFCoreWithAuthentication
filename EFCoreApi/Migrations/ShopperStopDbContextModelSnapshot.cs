@@ -50,6 +50,42 @@ namespace EFCoreApi.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookDetails_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookDetails_Id")
+                        .IsUnique();
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.BookDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookDetails");
+                });
+
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Cart", b =>
                 {
                     b.Property<int>("Id")
@@ -162,7 +198,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -336,7 +372,7 @@ namespace EFCoreApi.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -401,8 +437,10 @@ namespace EFCoreApi.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<bool?>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -442,16 +480,27 @@ namespace EFCoreApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Book", b =>
+                {
+                    b.HasOne("EFCoreApi.Models.DbModels.BookDetail", "BookDetails")
+                        .WithOne("Book")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Book", "BookDetails_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BookDetails");
+                });
+
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Cart", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Product", "Product")
-                        .WithOne()
+                        .WithOne("Cart")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Cart", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.User", "User")
-                        .WithOne()
+                        .WithOne("Cart")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -463,9 +512,11 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Image", b =>
                 {
-                    b.HasOne("EFCoreApi.Models.DbModels.Product", null)
+                    b.HasOne("EFCoreApi.Models.DbModels.Product", "Product")
                         .WithMany("ImageUrl")
                         .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
@@ -475,13 +526,13 @@ namespace EFCoreApi.Migrations
                         .HasForeignKey("ProductTypeId");
 
                     b.HasOne("EFCoreApi.Models.DbModels.Seller", "Seller")
-                        .WithOne()
+                        .WithOne("Product")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Size", "Size")
-                        .WithOne()
+                        .WithOne("Product")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -496,7 +547,7 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Address", "Address")
-                        .WithOne()
+                        .WithOne("Seller")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Seller", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -507,13 +558,13 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.User", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Address", "Address")
-                        .WithOne()
+                        .WithOne("User")
                         .HasForeignKey("EFCoreApi.Models.DbModels.User", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Role", "Role")
-                        .WithOne()
+                        .WithOne("User")
                         .HasForeignKey("EFCoreApi.Models.DbModels.User", "RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -523,9 +574,43 @@ namespace EFCoreApi.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Address", b =>
+                {
+                    b.Navigation("Seller");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.BookDetail", b =>
+                {
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
                 {
+                    b.Navigation("Cart");
+
                     b.Navigation("ImageUrl");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Role", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
+                {
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Size", b =>
+                {
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.User", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

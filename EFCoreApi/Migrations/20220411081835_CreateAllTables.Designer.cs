@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    [Migration("20220405164636_AlteredTheIdColumn")]
-    partial class AlteredTheIdColumn
+    [Migration("20220411081835_CreateAllTables")]
+    partial class CreateAllTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,42 @@ namespace EFCoreApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookDetails_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookDetails_Id")
+                        .IsUnique();
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.BookDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookDetails");
                 });
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Cart", b =>
@@ -180,19 +216,21 @@ namespace EFCoreApi.Migrations
                     b.Property<int?>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SellerId")
+                    b.Property<int>("SellerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SizeId")
+                    b.Property<int>("SizeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductTypeId");
 
-                    b.HasIndex("SellerId");
+                    b.HasIndex("SellerId")
+                        .IsUnique();
 
-                    b.HasIndex("SizeId");
+                    b.HasIndex("SizeId")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -333,7 +371,7 @@ namespace EFCoreApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -348,7 +386,8 @@ namespace EFCoreApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.ToTable("Sellers");
                 });
@@ -416,7 +455,7 @@ namespace EFCoreApi.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
@@ -429,7 +468,8 @@ namespace EFCoreApi.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .IsUnique();
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -440,16 +480,27 @@ namespace EFCoreApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Book", b =>
+                {
+                    b.HasOne("EFCoreApi.Models.DbModels.BookDetail", "BookDetails")
+                        .WithOne("Book")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Book", "BookDetails_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BookDetails");
+                });
+
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Cart", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Product", "Product")
-                        .WithOne()
+                        .WithOne("Cart")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Cart", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.User", "User")
-                        .WithOne()
+                        .WithOne("Cart")
                         .HasForeignKey("EFCoreApi.Models.DbModels.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -461,9 +512,11 @@ namespace EFCoreApi.Migrations
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Image", b =>
                 {
-                    b.HasOne("EFCoreApi.Models.DbModels.Product", null)
+                    b.HasOne("EFCoreApi.Models.DbModels.Product", "Product")
                         .WithMany("ImageUrl")
                         .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
@@ -473,12 +526,16 @@ namespace EFCoreApi.Migrations
                         .HasForeignKey("ProductTypeId");
 
                     b.HasOne("EFCoreApi.Models.DbModels.Seller", "Seller")
-                        .WithMany()
-                        .HasForeignKey("SellerId");
+                        .WithOne("Product")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId");
+                        .WithOne("Product")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductType");
 
@@ -490,8 +547,10 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                        .WithOne("Seller")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Seller", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
                 });
@@ -499,23 +558,59 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.User", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.Address", "Address")
-                        .WithOne()
+                        .WithOne("User")
                         .HasForeignKey("EFCoreApi.Models.DbModels.User", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
+                        .WithOne("User")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.User", "RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Address", b =>
+                {
+                    b.Navigation("Seller");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.BookDetail", b =>
+                {
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
                 {
+                    b.Navigation("Cart");
+
                     b.Navigation("ImageUrl");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Role", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Seller", b =>
+                {
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.Size", b =>
+                {
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("EFCoreApi.Models.DbModels.User", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

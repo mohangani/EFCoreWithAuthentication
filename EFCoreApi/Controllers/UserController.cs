@@ -1,4 +1,5 @@
 ﻿using EFCoreApi.Models.DbModels;
+using EFCoreApi.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace EFCoreApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "admin")]
-    public class UserController : CommonController<User>
+    public class UserController : CommonController<UserInputModel, User>
     {
         private readonly ShopperStopDbContext _dbcontext;
 

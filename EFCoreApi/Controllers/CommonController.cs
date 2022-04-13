@@ -12,7 +12,8 @@ namespace EFCoreApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "admin")]
-    public abstract class CommonController<T> : ControllerBase where T: class, IDbModel
+    public abstract class CommonController<Source,Dest> : ControllerBase where Source: class, IDbModel
+        where Dest: class, IDbModel
     {
         private readonly ShopperStopDbContext _dbcontext;
 
@@ -22,27 +23,27 @@ namespace EFCoreApi.Controllers
         }
 
         [HttpPost("Add")]
-        public virtual async Task<IActionResult> Add(T model)
+        public virtual async Task<IActionResult> Add(Source model)
         {
-            await _dbcontext.Set<T>().AddAsync(model);
+            await _dbcontext.Set<Dest>().AddAsync(model as Dest);
             var insertedId = _dbcontext.SaveChanges();
             return Ok(insertedId);
 
         }
 
         [HttpPost("AddRange")]
-        public virtual async Task<IActionResult> AddRange(List<T> modelList)
+        public virtual async Task<IActionResult> AddRange(List<Source> modelList)
         {
-            await _dbcontext.Set<T>().AddRangeAsync(modelList);
+            await _dbcontext.Set<Dest>().AddRangeAsync(modelList as List<Dest>);
             _dbcontext.SaveChanges();
             return Ok();
         }
 
         [HttpPut("Update")]
-        public virtual IActionResult Update(T user)
+        public virtual IActionResult Update(Source user)
         {
             if (user.Id == default) return BadRequest("User Id Required.");
-            _dbcontext.Set<T>().Update(user);
+            _dbcontext.Set<Dest>().Update(user as Dest);
             return Ok(_dbcontext.SaveChanges());
         }
 
@@ -63,7 +64,7 @@ namespace EFCoreApi.Controllers
         public virtual async Task<IActionResult> GetUser(int Id)
         {
             // var result =  await _dbcontext.Users.Include(x=>x.Address).FirstOrDefaultAsync(x=>x.UserId == userid);
-            var result1 = await _dbcontext.Set<T>().FirstOrDefaultAsync(x => x.Id == Id);
+            var result1 = await _dbcontext.Set<Dest>().FirstOrDefaultAsync(x => x.Id == Id);
             return Ok(result1);
         }
 
@@ -75,9 +76,9 @@ namespace EFCoreApi.Controllers
 
         // GET: api/Generic
         [HttpGet("list/{pageNo}-{pageSize}")]
-        public virtual (IEnumerable<T>, int) Get(int pageNo, int pageSize)
+        public virtual (IEnumerable<Dest>, int) Get(int pageNo, int pageSize)
         {
-            var query = _dbcontext.Set<T>();
+            var query = _dbcontext.Set<Dest>();
 
             var totalRecords = query.Count();
             var items = query.OrderBy(x => x.Id)
