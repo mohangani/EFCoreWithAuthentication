@@ -93,6 +93,8 @@ namespace EFCoreApi
                 options.AddPolicy("user",
                                 policy => policy.RequireClaim("RoleName", "User"));
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

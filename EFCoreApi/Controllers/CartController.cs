@@ -1,4 +1,5 @@
-﻿using EFCoreApi.Models.DbModels;
+﻿using AutoMapper;
+using EFCoreApi.Models.DbModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,9 +14,12 @@ namespace EFCoreApi.Controllers
     public class CartController : CommonController<Cart, Cart>
     {
         private readonly ShopperStopDbContext _dbcontext;
-        public CartController(ShopperStopDbContext dbcontext) : base(dbcontext)
+        private readonly IMapper mapper;
+
+        public CartController(ShopperStopDbContext dbcontext, IMapper mapper) : base(dbcontext, mapper)
         {
             _dbcontext = dbcontext;
+            this.mapper = mapper;
         }
     }
 }

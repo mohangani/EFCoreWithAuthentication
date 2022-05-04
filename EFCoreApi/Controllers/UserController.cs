@@ -1,4 +1,5 @@
-﻿using EFCoreApi.Models.DbModels;
+﻿using AutoMapper;
+using EFCoreApi.Models.DbModels;
 using EFCoreApi.Models.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +18,12 @@ namespace EFCoreApi.Controllers
     public class UserController : CommonController<UserInputModel, User>
     {
         private readonly ShopperStopDbContext _dbcontext;
+        private readonly IMapper mapper;
 
-        public UserController(ShopperStopDbContext dbcontext) : base(dbcontext)
+        public UserController(ShopperStopDbContext dbcontext, IMapper mapper) : base(dbcontext, mapper)
         {
             _dbcontext = dbcontext;
+            this.mapper = mapper;
         }
 
         //[HttpPost("Add")]

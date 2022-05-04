@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +17,18 @@ namespace EFCoreApi.Controllers
         where Dest: class, IDbModel
     {
         private readonly ShopperStopDbContext _dbcontext;
+        private readonly IMapper _mapper;
 
-        public CommonController(ShopperStopDbContext dbcontext)
+        public CommonController(ShopperStopDbContext dbcontext,IMapper mapper)
         {
             _dbcontext = dbcontext;
+            _mapper = mapper;
         }
 
         [HttpPost("Add")]
         public virtual async Task<IActionResult> Add(Source model)
         {
-            await _dbcontext.Set<Dest>().AddAsync(model as Dest);
+            await _dbcontext.Set<Dest>().AddAsync(_mapper.Map<Dest>(model));
             var insertedId = _dbcontext.SaveChanges();
             return Ok(insertedId);
 
@@ -34,6 +37,8 @@ namespace EFCoreApi.Controllers
         [HttpPost("AddRange")]
         public virtual async Task<IActionResult> AddRange(List<Source> modelList)
         {
+            //_mapper.Map<List<Dest>>(modelList)
+            
             await _dbcontext.Set<Dest>().AddRangeAsync(modelList as List<Dest>);
             _dbcontext.SaveChanges();
             return Ok();
@@ -76,7 +81,7 @@ namespace EFCoreApi.Controllers
 
         // GET: api/Generic
         [HttpGet("list/{pageNo}-{pageSize}")]
-        public virtual (IEnumerable<Dest>, int) Get(int pageNo, int pageSize)
+        public virtual IEnumerable<Dest> Get(int pageNo, int pageSize)
         {
             var query = _dbcontext.Set<Dest>();
 
@@ -86,7 +91,7 @@ namespace EFCoreApi.Controllers
                 .Take(pageSize)
                 .AsEnumerable();
 
-            return (items, totalRecords);
+            return items;
         }
     }
 }

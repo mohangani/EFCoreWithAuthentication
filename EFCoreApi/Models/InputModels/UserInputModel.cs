@@ -21,5 +21,6 @@ namespace EFCoreApi.Models.InputModels
         public int AddressId { get; set; }
         public int RoleId { get; set; }
         public bool? IsActive { get; set; }
+        public AddressInputModel Address { get; set; }
     }
 }
