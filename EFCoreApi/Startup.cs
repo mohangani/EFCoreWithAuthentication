@@ -77,14 +77,14 @@ namespace EFCoreApi
                 };
             });
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("CorsPolicy",//Allow Cross origin  
-            //        builder => builder.AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //        .AllowCredentials());
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",//Allow Cross origin  
+                 builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             services.AddAuthorization(options =>
             {
@@ -108,13 +108,14 @@ namespace EFCoreApi
 
             }
 
-            app.UseAuthentication();
             app.UseMiddleware<ExceptionMiddleWare>();
+            app.UseCors("CorsPolicy");
+            //app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+           // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

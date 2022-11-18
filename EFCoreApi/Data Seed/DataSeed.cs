@@ -12,7 +12,7 @@ namespace EFCoreApi.Data_Seed
 
         public virtual ModelBuilder SeedData<T, A>(ModelBuilder modelBuilder) where T : DataSeedEnumClass<A>, new() where A : Enum 
         {
-            var list = Enum.GetValues(typeof(A)).Cast<A>().Select(x =>
+            var list = Enum.GetValues(typeof(A)).Cast<int>().Select(x =>
             new T { Name = x.ToString(), Id = x });
             modelBuilder.Entity<T>().HasData(list);
             return modelBuilder;

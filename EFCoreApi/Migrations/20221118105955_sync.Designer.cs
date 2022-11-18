@@ -4,14 +4,16 @@ using EFCoreApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    partial class ShopperStopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221118105955_sync")]
+    partial class sync
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

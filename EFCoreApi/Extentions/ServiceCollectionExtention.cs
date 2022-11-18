@@ -12,10 +12,10 @@ namespace EFCoreApi.Extentions
     {
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
-            services.AddTransient<ShopperStopDbContext, ShopperStopDbContext>();
-            services.AddTransient<ExceptionMiddleWare>();
-            services.AddSingleton<IToken,Token>();
-            services.AddSingleton<ILogin, Login>();
+            services.AddScoped<ShopperStopDbContext, ShopperStopDbContext>();
+            services.AddSingleton<ExceptionMiddleWare>();
+            services.AddScoped<IToken,Token>();
+            services.AddScoped<ILogin, Login>();
 
             return services;
         }

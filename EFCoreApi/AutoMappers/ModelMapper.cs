@@ -12,7 +12,8 @@ namespace EFCoreApi.AutoMappers
     {
         public RequestDbModelMapping()
         {
-            CreateMap<UserInputModel,User>();
+            CreateMap<UserInputModel, User>();
+            CreateMap<AddressInputModel, Address>();
         }
     }
 }

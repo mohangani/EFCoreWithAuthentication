@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
@@ -11,6 +12,9 @@ namespace EFCoreApi.Models.DbModels
     {
         //    public ProductEnum Id { get; set; }
         //    public string Name { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Product> Product { get; set; }
     }
     public enum ProductEnum : int
     {

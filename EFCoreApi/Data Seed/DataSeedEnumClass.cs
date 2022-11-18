@@ -7,7 +7,7 @@ namespace EFCoreApi.Data_Seed
 {
     public class DataSeedEnumClass<T> where T: Enum 
     {
-        public T Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

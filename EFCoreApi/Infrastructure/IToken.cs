@@ -1,9 +1,10 @@
 ﻿using EFCoreApi.Models.DbModels;
+using EFCoreApi.Models.OutputModels;
 
 namespace EFCoreApi.Infrastructure
 {
     public interface IToken
     {
-        string Create(User user);
+        TokenDto Create(User user);
     }   
 }

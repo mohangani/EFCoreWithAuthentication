@@ -1,5 +1,6 @@
 ﻿using EFCoreApi.Models.DbModels;
 using EFCoreApi.Models.InputModels;
+using EFCoreApi.Models.OutputModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,9 +22,9 @@ namespace EFCoreApi.Infrastructure
             _config = config;   
         }
 
-        public string Create(User user) => GenerateJSONWebToken(user);
+        public TokenDto Create(User user) => GenerateJSONWebToken(user);
 
-        private string GenerateJSONWebToken(User user)
+        private TokenDto GenerateJSONWebToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -40,10 +41,17 @@ namespace EFCoreApi.Infrastructure
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               claims,
-              expires: DateTime.Now.AddMinutes(20),
+              expires: DateTime.Now.AddMinutes(5),
               signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new TokenDto()
+            {
+                Name = user.UserName,
+                Role = user.Role.RoleName,
+                ExpirationDate = token.ValidTo,
+                ExpirationInMs = (token.ValidTo - token.ValidFrom).TotalMilliseconds,
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
         }
     }
 }

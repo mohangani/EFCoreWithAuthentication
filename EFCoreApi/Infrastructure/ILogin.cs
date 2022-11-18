@@ -1,9 +1,10 @@
 ﻿using EFCoreApi.Models.InputModels;
+using EFCoreApi.Models.OutputModels;
 
 namespace EFCoreApi.Infrastructure
 {
     public interface ILogin
     {
-        string Authenticate(LoginDto input);
+        TokenDto Authenticate(LoginDto input);
     }
 }

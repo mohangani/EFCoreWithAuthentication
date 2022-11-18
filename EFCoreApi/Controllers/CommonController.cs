@@ -12,14 +12,14 @@ namespace EFCoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "admin")]
-    public abstract class CommonController<Source,Dest> : ControllerBase where Source: class, IDbModel
-        where Dest: class, IDbModel
+    //[Authorize(Policy = "admin")]
+    public abstract class CommonController<Source, Dest> : ControllerBase where Source : class, IDbModel
+        where Dest : class, IDbModel
     {
         private readonly ShopperStopDbContext _dbcontext;
         private readonly IMapper _mapper;
 
-        public CommonController(ShopperStopDbContext dbcontext,IMapper mapper)
+        public CommonController(ShopperStopDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
             _mapper = mapper;
@@ -28,8 +28,17 @@ namespace EFCoreApi.Controllers
         [HttpPost("Add")]
         public virtual async Task<IActionResult> Add(Source model)
         {
-            await _dbcontext.Set<Dest>().AddAsync(_mapper.Map<Dest>(model));
-            var insertedId = _dbcontext.SaveChanges();
+            int insertedId = default;
+            try
+            {
+                await _dbcontext.Set<Dest>().AddAsync(_mapper.Map<Dest>(model));
+                insertedId = _dbcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
             return Ok(insertedId);
 
         }
@@ -38,7 +47,7 @@ namespace EFCoreApi.Controllers
         public virtual async Task<IActionResult> AddRange(List<Source> modelList)
         {
             //_mapper.Map<List<Dest>>(modelList)
-            
+
             await _dbcontext.Set<Dest>().AddRangeAsync(modelList as List<Dest>);
             _dbcontext.SaveChanges();
             return Ok();
@@ -80,7 +89,8 @@ namespace EFCoreApi.Controllers
         //}
 
         // GET: api/Generic
-        [HttpGet("list/{pageNo}-{pageSize}")]
+       // [HttpGet("list/{pageNo}-{pageSize}")]
+        [HttpGet("list")]
         public virtual IEnumerable<Dest> Get(int pageNo, int pageSize)
         {
             var query = _dbcontext.Set<Dest>();

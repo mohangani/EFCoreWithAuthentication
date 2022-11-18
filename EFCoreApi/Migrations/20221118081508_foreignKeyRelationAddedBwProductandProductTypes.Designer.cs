@@ -4,14 +4,16 @@ using EFCoreApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreApi.Migrations
 {
     [DbContext(typeof(ShopperStopDbContext))]
-    partial class ShopperStopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221118081508_foreignKeyRelationAddedBwProductandProductTypes")]
+    partial class foreignKeyRelationAddedBwProductandProductTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,11 +226,14 @@ namespace EFCoreApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrdTypeId");
+                    b.HasIndex("PrdTypeId")
+                        .IsUnique();
 
-                    b.HasIndex("SellerId");
+                    b.HasIndex("SellerId")
+                        .IsUnique();
 
-                    b.HasIndex("SizeId");
+                    b.HasIndex("SizeId")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -402,9 +407,8 @@ namespace EFCoreApi.Migrations
                     b.Property<float?>("Height")
                         .HasColumnType("real");
 
-                    b.Property<string>("ProductSize")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProductSize")
+                        .HasColumnType("int");
 
                     b.Property<float?>("Width")
                         .HasColumnType("real");
@@ -525,20 +529,20 @@ namespace EFCoreApi.Migrations
             modelBuilder.Entity("EFCoreApi.Models.DbModels.Product", b =>
                 {
                     b.HasOne("EFCoreApi.Models.DbModels.ProductType", "ProductType")
-                        .WithMany("Product")
-                        .HasForeignKey("PrdTypeId")
+                        .WithOne("Product")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Product", "PrdTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Seller", "Seller")
-                        .WithMany("Product")
-                        .HasForeignKey("SellerId")
+                        .WithOne("Product")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreApi.Models.DbModels.Size", "Size")
-                        .WithMany("Product")
-                        .HasForeignKey("SizeId")
+                        .WithOne("Product")
+                        .HasForeignKey("EFCoreApi.Models.DbModels.Product", "SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
