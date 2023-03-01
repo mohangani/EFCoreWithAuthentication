@@ -1,8 +1,6 @@
 ﻿using EFCoreApi.Models.OutputModels;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace EFCoreApi.Middlewares
         {
             try
             {
-                 await next(context);
+                await next(context);
             }
             catch (Exception ex)
             {
@@ -26,7 +24,7 @@ namespace EFCoreApi.Middlewares
                 };
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json"; 
+                context.Response.ContentType = "application/json";
 
                 await context.Response.WriteAsync(exception.ToString());
             }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using EFCoreApi.Models.DbModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +18,14 @@ namespace EFCoreApi.Controllers
         {
             _dbcontext = dbcontext;
             this.mapper = mapper;
+        }
+
+        [HttpGet("list1")]
+        public async Task<IActionResult> Get1(int pageNo = 1, int pageSize = 50)
+        {
+            var count = _dbcontext.Products.Count();
+            var result = await _dbcontext.Products.Include(x => x.Size).OrderBy(x => x.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(result);
         }
     }
 }

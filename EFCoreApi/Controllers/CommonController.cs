@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -58,7 +57,7 @@ namespace EFCoreApi.Controllers
         {
             if (user.Id == default) return BadRequest("User Id Required.");
             _dbcontext.Set<Dest>().Update(user as Dest);
-            return Ok(_dbcontext.SaveChanges());
+            return Ok(_dbcontext. SaveChanges());
         }
 
         [HttpDelete("Delete")]
@@ -89,17 +88,18 @@ namespace EFCoreApi.Controllers
         //}
 
         // GET: api/Generic
-       // [HttpGet("list/{pageNo}-{pageSize}")]
+        // [HttpGet("list/{pageNo}-{pageSize}")]
         [HttpGet("list")]
-        public virtual IEnumerable<Dest> Get(int pageNo, int pageSize)
+        public virtual async Task<IEnumerable<Dest>> Get(int pageNo, int pageSize)
         {
             var query = _dbcontext.Set<Dest>();
 
             var totalRecords = query.Count();
-            var items = query.OrderBy(x => x.Id)
+            var items = await query
+                .OrderBy(x => x.Id)
                 .Skip((pageNo - 1) * pageSize)
                 .Take(pageSize)
-                .AsEnumerable();
+                .ToListAsync();
 
             return items;
         }

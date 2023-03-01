@@ -2,10 +2,7 @@
 using EFCoreApi.Models.InputModels;
 using EFCoreApi.Models.OutputModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Infrastructure
 {

@@ -1,10 +1,6 @@
 ﻿using EFCoreApi.Infrastructure;
 using EFCoreApi.Middlewares;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Extentions
 {
@@ -14,7 +10,7 @@ namespace EFCoreApi.Extentions
         {
             services.AddScoped<ShopperStopDbContext, ShopperStopDbContext>();
             services.AddSingleton<ExceptionMiddleWare>();
-            services.AddScoped<IToken,Token>();
+            services.AddScoped<IToken, Token>();
             services.AddScoped<ILogin, Login>();
 
             return services;

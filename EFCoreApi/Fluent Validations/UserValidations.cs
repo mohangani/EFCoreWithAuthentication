@@ -1,9 +1,5 @@
 ﻿using EFCoreApi.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Fluent_Validations
 {
@@ -14,7 +10,7 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<User>().HasIndex(x => x.UserName).IsUnique();
             modelBuilder.Entity<User>().HasIndex(x => new { x.FirstName, x.LastName, x.Dob }).IsUnique();
-            
+
             modelBuilder.Entity<User>().Property(x => x.FirstName).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.LastName).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.Dob).IsRequired();
@@ -24,8 +20,8 @@ namespace EFCoreApi.Fluent_Validations
             modelBuilder.Entity<User>().Property(x => x.Password).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Gender).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.IsActive).HasDefaultValue(true);
-            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne(x=>x.User).HasForeignKey<User>(x=>x.AddressId);
-            modelBuilder.Entity<User>().HasOne(x => x.Role).WithOne(x=>x.User).HasForeignKey<User>(x=>x.RoleId);
+            modelBuilder.Entity<User>().HasOne(x => x.Address).WithOne(x => x.User).HasForeignKey<User>(x => x.AddressId);
+            modelBuilder.Entity<User>().HasOne(x => x.Role).WithOne(x => x.User).HasForeignKey<User>(x => x.RoleId);
         }
     }
 }

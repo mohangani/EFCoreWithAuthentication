@@ -1,24 +1,19 @@
 ﻿using EFCoreApi.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
-    public class Cart :IDbModel
+    public class Cart : IDbModel
     {
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int Id { get; set; }
 
         public int UserId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public User User { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Product Product { get; set; }
 
     }

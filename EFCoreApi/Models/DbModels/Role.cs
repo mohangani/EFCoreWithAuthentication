@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-
-namespace EFCoreApi.Models.DbModels
+﻿namespace EFCoreApi.Models.DbModels
 {
     public class Role
     {
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int Id { get; set; }
         public string RoleName { get; set; }
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public User User { get; set; }
     }
 }

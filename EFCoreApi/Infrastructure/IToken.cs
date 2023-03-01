@@ -6,5 +6,5 @@ namespace EFCoreApi.Infrastructure
     public interface IToken
     {
         TokenDto Create(User user);
-    }   
+    }
 }

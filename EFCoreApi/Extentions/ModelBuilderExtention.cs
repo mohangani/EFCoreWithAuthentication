@@ -2,10 +2,6 @@
 using EFCoreApi.Fluent_Validations;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EFCoreApi
 {
@@ -22,12 +18,12 @@ namespace EFCoreApi
         {
             //Debugger.Launch();
             Type modeltype = Type.GetType($"EFCoreApi.Fluent_Validations.{typeof(T).Name}Validations");
-            
+
             if (modeltype is null) return modelBuilder;
             var model = Activator.CreateInstance(modeltype);
-            
+
             if (model is null) return modelBuilder;
-            
+
             ((IValidation)model).AppendValidations(modelBuilder);
             return modelBuilder;
         }
@@ -38,7 +34,7 @@ namespace EFCoreApi
             if (modeltype is not null)
             {
                 var model = Activator.CreateInstance(modeltype);
-                if (model is not null) 
+                if (model is not null)
                     ((DataSeed)model).SeedData(modelBuilder);
             }
             return modelBuilder;

@@ -7,7 +7,7 @@ namespace EFCoreApi.Models.OutputModels
         public string Name { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
-        public DateTime ExpirationDate{ get; set; }
+        public DateTime ExpirationDate { get; set; }
         public double ExpirationInMs { get; set; }
     }
 }

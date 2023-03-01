@@ -1,8 +1,4 @@
 ﻿using EFCoreApi.Data_Seed;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
@@ -15,8 +11,8 @@ namespace EFCoreApi.Models.DbModels
     {
         Male = 1,
         Female = 2,
-        TransGenderMale=3,
-        TransGenderFemale=4,
+        TransGenderMale = 3,
+        TransGenderFemale = 4,
         Hizra = 5,
     }
 }

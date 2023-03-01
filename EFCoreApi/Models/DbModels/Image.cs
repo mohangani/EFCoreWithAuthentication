@@ -1,15 +1,13 @@
-﻿using System.Text.Json.Serialization;
-
-namespace EFCoreApi.Models.DbModels
+﻿namespace EFCoreApi.Models.DbModels
 {
     public class Image
     {
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int Id { get; set; }
         public string Url { get; set; }
         public string Type { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Product Product { get; set; }
 
 

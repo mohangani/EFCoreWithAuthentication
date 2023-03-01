@@ -1,23 +1,20 @@
 ﻿using EFCoreApi.Controllers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace EFCoreApi.Models.DbModels
 {
     public class Seller : IDbModel
     {
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int Id { get; set; }
         public string Name { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int AddressId { get; set; }
         public Address Address { get; set; }
-        public bool? IsActive { get; set; }
+        [SwaggerIgnore]
+        public bool? IsActive { get; set; } = true;
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public ICollection<Product> Product { get; set; }
     }
 }

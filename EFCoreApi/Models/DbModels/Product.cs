@@ -1,14 +1,12 @@
 ﻿using EFCoreApi.Controllers;
-using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace EFCoreApi.Models.DbModels
 {
     public class Product : IDbModel
     {
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
@@ -17,17 +15,17 @@ namespace EFCoreApi.Models.DbModels
         public string Description { get; set; }
         public string BrandName { get; set; }
         public int SizeId { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Size Size { get; set; }
-        public int SellerId { get;  set; }
-        [JsonIgnore]
+        public int SellerId { get; set; }
+        [SwaggerIgnore]
         public Seller Seller { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public ProductType ProductType { get; set; }
         public int PrdTypeId { get; set; }
-        [JsonIgnore]
+        [SwaggerIgnore]
         public bool? IsActive { get; set; } = true;
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Cart Cart { get; set; }
     }
 }
